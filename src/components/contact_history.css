@@ -1,0 +1,12 @@
+.contact-current {
+    /* background-color: green; */
+    box-shadow: green;
+}
+
+.card-attributes {
+    margin: auto;
+}
+
+.contact-history-separator {
+    margin: 30px 0;
+}
