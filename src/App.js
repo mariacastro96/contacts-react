@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import axios from "axios";
 import Contact from './components/contact';
 import ContactForm from './components/contact_form';
 import ContactHistory from './components/contact_history';
-import * as API from './utils/api'
+import * as ContactsAPI from './utils/api'
 import './App.css';
 
 class App extends Component {
@@ -19,76 +18,63 @@ class App extends Component {
     this.removeContact = this.removeContact.bind(this);
   }
 
-
   componentDidMount() {
-    console.log(API.getContacts())
-    // API.getContacts().then((contacts) => {
-    //   this.setState({ contacts });
-    // })
-    // axios.get('http://jsonplaceholder.typicode.com/users')
-    //     .then((response) => {
-    //         this.setState({ contacts: response.data });
-    //     })
-        
-        //fetch('http://jsonplaceholder.typicode.com/users')
-        //.then(res => res.json())
-        //.then((data) => {
-        //	this.setState({ contacts: data });
-        // })
-        // .catch(console.log)
+    ContactsAPI.getContacts()
+    .then((contacts) => { 
+      if (contacts !== undefined) this.setState({ contacts })
+    })
   };
 
-  addContact = (contact) => {
-    this.setState(state => ({
+  showAddForm = () => {
+    this.setState(() => ({
       showForm: true,
       editable: false,
       selectedContact: null
     }))
   }
-
-  showHistory = (contact) => {
-    this.setState(state => ({
-      showForm: false,
-      selectedContact: contact,
-      contact_versions: this.state.contacts,
-      // contact_versions: get_versions(contact)
-    }))
-  }
-
-  editContact = (contact) => {
-    this.setState(state => ({
+  
+  showEditForm = (contact) => {
+    this.setState(() => ({
       showForm: true,
       editable: true,
       selectedContact: contact
     }))
   }
 
+  showHistory = (contact) => {
+    ContactsAPI.getContactVersions(contact.id)
+    .then((contact_versions) => {
+      this.setState({ contact_versions })
+    })
+    
+    this.setState(() => ({
+      showForm: false,
+      selectedContact: contact,
+    }))
+  }
+
   removeContact = (contact) => {
-    this.setState(state => ({
+    ContactsAPI.deleteContact(contact.id);
+
+    this.setState(() => ({
       contacts: this.state.contacts.filter(obj => obj !== contact),
       showForm: false,
       selectedContact: null
     }))
   }
 
-  formSubmit = (contact, name, email, phone, action) => {
-    const newContact = {
-      name: name,
-      email: email,
-      phone: phone
-    }
-
-    this.setState(state => ({
-      showForm: false,
-      selectedContact: null,
+  formSubmit = (oldContact, newContact, action) => {
+    this.setState(() => ({
       contacts:
-        (action === 'new') ? (
-          this.state.contacts.concat([newContact])
-        ) : (
-          this.state.contacts.map(obj => (
-            obj === contact ? newContact : obj
+      (action === 'new') ? (
+        this.state.contacts.concat([newContact])
+      ) : (
+        this.state.contacts.map(obj => (
+          obj === oldContact ? newContact : obj
         ))
-        )
+      ),
+      selectedContact: null,
+      showForm: false
     }))
   }
 
@@ -99,7 +85,7 @@ class App extends Component {
         <div className="contacts-navbar">
           <center>
             <h1>Contact List</h1>
-            <button type="button" className="btn btn-success" onClick={this.addContact}>+ NEW CONTACT</button>
+            <button type="button" className="btn btn-success" onClick={this.showAddForm}>+ NEW CONTACT</button>
           </center>
         </div>
         <div className="contacts-body">
@@ -108,7 +94,7 @@ class App extends Component {
               <h5 className="text-muted">CONTACTS</h5>
             </div>
             {this.state.contacts.map((contact) => {
-              return <Contact key = {contact.id} contact = {contact} handleHistory = { this.showHistory } handleEdit = { this.editContact } handleDelete = { this.removeContact } />
+              return <Contact key = {contact.id} contact = {contact} handleHistory = { this.showHistory } handleEdit = { this.showEditForm } handleDelete = { this.removeContact } />
             })}
           </div>
           <div className="canvas">

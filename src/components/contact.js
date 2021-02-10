@@ -3,10 +3,10 @@ import './contact.css';
 
 const Contact = ({contact, handleHistory, handleEdit, handleDelete}) => {
 	return (
-		<div key={contact.name} className="card">
+		<div className="card">
 			<div className="card-body">
 				<div className="card-attributes">
-					<h5 className="card-title">{contact.name}</h5>
+					<h5 className="card-title">{contact.first_name} {contact.last_name}</h5>
 					<h6 className="card-subtitle mb-2 text-muted">{contact.email}</h6>
 					<p className="card-text">{contact.phone}</p>
 				</div>

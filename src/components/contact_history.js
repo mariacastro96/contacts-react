@@ -1,6 +1,5 @@
 import React from 'react'
 import History from './history'
-// import './contact_history.css';
 
 const ContactHistory  = ({contact, contact_versions}) => {
 	return ( 

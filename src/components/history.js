@@ -10,9 +10,9 @@ const History = ({contact, contact_versions}) => {
 			<div key={contact.name} className="card">
 				<div className="card-body border-success">
 					<div className="text-center card-attributes contact-current">
-						<h5 className="card-title">{contact.name}</h5>
-						<h6 className="card-subtitle mb-2 text-muted">{contact.email}</h6>
-						<p className="card-text">{contact.phone}</p>
+					<p className="card-text text-muted">LAST UPDATE DATE: {contact.updated_at}</p>
+						<h5 className="card-title">{contact.first_name} {contact.last_name}</h5>
+						<h6 className="card-subtitle mb-2 text-muted">{contact.email} | {contact.phone}</h6>
 					</div>
 				</div>
 			</div>
@@ -23,8 +23,9 @@ const History = ({contact, contact_versions}) => {
 				<div key={contact.name} className="card">
 					<div className="card-body">
 						<div className="text-center card-attributes">
-							<p className="card-text text-muted">{contact.name}</p>
-							<p className="card-text text-muted">{contact.email}   |   {contact.phone}</p>
+							<p className="card-text text-muted">EDIT DATE: {contact.created_at}</p>
+							<p className="card-text text-muted">{contact.first_name} {contact.last_name}</p>
+							<p className="card-subtitle mb-2 text-muted">{contact.email} | {contact.phone}</p>
 						</div>
 					</div>
 				</div>
