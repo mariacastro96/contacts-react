@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Getting Set Up
 
-## you can run this project from rails repo - https://github.com/mariacastro96/contacts-api (optional)
+## you can run this project from rails repo - https://github.com/mariacastro96/contacts-api#README (optional)
 
 Getting the server running on your local machine takes only a few steps:
 
